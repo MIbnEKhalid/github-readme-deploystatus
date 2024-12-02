@@ -1,25 +1,46 @@
 import express from 'express';
 import axios from 'axios';
+import { createServer } from 'http';
 
 const app = express();
 
 // Endpoint for deployment status
 app.get('/', async (req, res) => {
-    const platform = req.query.platform; // 'github' or 'netlify'
+  const platform = req.query.platform; // 'github' or 'netlify'
   const user = req.query.user; // GitHub username
   const repo = req.query.repo; // GitHub repository name
   let status = 'unknown';
   let errorLogs = '';
 
   if (!platform || !user || !repo) {
-    res.status(400).send('<h1>400 Bad Request</h1><p>Missing required query parameters: platform, user, or repo.</p>');
+    const html = `
+      <style>
+        .status {
+          display: inline-block;
+          padding: 10px 20px;
+          font-size: 16px;
+          color: #fff;
+          border-radius: 5px;
+          text-align: center;
+          transition: background-color 0.3s ease;
+        }
+        .error {
+          background-color: #f44336;
+        }
+      </style>
+      <div class="status error">
+        Missing required query parameters: platform, user, or repo.
+      </div>
+    `;
+    res.setHeader('Content-Type', 'text/html');
+    res.status(400).send(html);
     return;
   }
 
   try {
-    if (platform === 'github') {
+    if (platform === 'github' || platform === 'g') {
       const response = await axios.get(
-        `https://api.github.com/repos/${user}/${repo}/actions/runs`
+        `https://api.github.com/repos/${user}/${repo}/pages/builds/latest`
       );
       const latestRun = response.data.workflow_runs[0];
       status = latestRun.status === 'completed' ? latestRun.conclusion : latestRun.status;
@@ -59,52 +80,56 @@ app.get('/', async (req, res) => {
     colorClass = 'building';
     message = 'Building';
   }
+  else  {
+    colorClass = 'error';
+    message = 'Not Found';
+  }
 
   const html = `
     <style>
-        .status {
-            display: inline-block;
-            padding: 10px 20px;
-            font-size: 16px;
-            color: #fff;
-            border-radius: 5px;
-            text-align: center;
-            transition: background-color 0.3s ease;
-        }
-        .success {
-            background-color: #4caf50;
-        }
-        .error {
-            background-color: #f44336;
-        }
-        .building {
-            background-color: #ffeb3b;
-            color: #000;
-        }
-        .unknown {
-            background-color: #9e9e9e;
-        }
-        .error-logs {
-            margin-top: 20px;
-            padding: 10px;
-            border: 1px solid #f44336;
-            background-color: #ffe6e6;
-            color: #b71c1c;
-            white-space: pre-wrap;
-            font-family: monospace;
-            max-height: 400px;
-            overflow-y: auto;
-        }
-        .hidden {
-            display: none;
-        }
+      .status {
+        display: inline-block;
+        padding: 10px 20px;
+        font-size: 16px;
+        color: #fff;
+        border-radius: 5px;
+        text-align: center;
+        transition: background-color 0.3s ease;
+      }
+      .success {
+        background-color: #4caf50;
+      }
+      .error {
+        background-color: #f44336;
+      }
+      .building {
+        background-color: #ffeb3b;
+        color: #000;
+      }
+      .unknown {
+        background-color: #9e9e9e;
+      }
+      .error-logs {
+        margin-top: 20px;
+        padding: 10px;
+        border: 1px solid #f44336;
+        background-color: #ffe6e6;
+        color: #b71c1c;
+        white-space: pre-wrap;
+        font-family: monospace;
+        max-height: 400px;
+        overflow-y: auto;
+      }
+      .hidden {
+        display: none;
+      }
     </style>
     <div class="status ${colorClass}">
-        ${message}
+      ${message}
     </div>
     <div class="error-logs ${status === 'error' || status === 'failure' ? '' : 'hidden'}">
-        <h3>Error Logs:</h3>
-        <pre>${errorLogs}</pre>
+      <h3>Error Logs:</h3>
+      <pre>${errorLogs}</pre>
     </div>
   `;
 
@@ -112,5 +137,10 @@ app.get('/', async (req, res) => {
   res.send(html);
 });
 
- 
+// Start the server
+const PORT = process.env.PORT || 3000;
+app.listen(PORT, () => {
+  console.log(`Server is running on http://localhost:${PORT}`);
+});
+
 export default app;

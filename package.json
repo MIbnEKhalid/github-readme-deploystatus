@@ -2,9 +2,11 @@
   "name": "github-readme-deploystatus",
   "version": "1.0.0",
   "description": "A Node.js application for checking and displaying deployment status of GitHub Actions and Netlify builds with simple endpoints.",
-  "main": "index.js",  "type": "module",
+  "main": "index.js",
+  "type": "module",
   "scripts": {
     "start": "node index.js",
+    "build": "node index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -21,7 +23,7 @@
     "api"
   ],
   "author": "Muhammad Bin khalid",
-    "license": "MIT",
+  "license": "MIT",
   "bugs": {
     "url": "https://github.com/MIbnEKhalid/github-readme-deploystatus/issues"
   },

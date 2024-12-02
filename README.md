@@ -4,6 +4,12 @@
 
 
 
+https://readme.deploystatus.mbktechstudio.com/?platform=github&user=mibnekhalid&repo=MIbnEKhalid.github.io&background=333333&hide_border=false&border=ff0&width=200&height=50
+https://github-readme-deploystatus.vercel.app/?platform=github&user=mibnekhalid&repo=DeployStatus&background=333333&hide_border=false&border=ff0&width=200&height=50
+
+![Deployment Status](https://readme.deploystatus.mbktechstudio.com/?platform=github&user=mibnekhalid&repo=MIbnEKhalid.github.io&background=333333&hide_border=false&border=ff0&width=200&height=50)
+![Deployment Status](https://github-readme-deploystatus.vercel.app/?platform=github&user=mibnekhalid&repo=DeployStatus&background=333333&hide_border=false&border=ff0&width=200&height=50)
+
 
 
 

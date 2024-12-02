@@ -64,8 +64,7 @@ app.get('/', async (req, res) => {
 
   try {
     let status = 'unknown';
-    let errorLogs = '';
-    let message = 'Unknown';
+    let errorLogs = ''; 
 
     // Set width and height for SVG
     const svgWidth = width ? parseInt(width) : 200;
@@ -80,9 +79,7 @@ app.get('/', async (req, res) => {
           // 'Authorization': `token ${token}`,
           'Accept': 'application/vnd.github.v3+json'
         }
-      });
-
-      console.log(response);
+      }); 
 
       // Extract workflow runs data
       const runs = response.data.workflow_runs || [];
@@ -92,6 +89,7 @@ app.get('/', async (req, res) => {
 
       const latestRun = runs[0];
       status = latestRun.conclusion || latestRun.status || 'unknown'; // Get status or conclusion
+      console.log(latestRun);
 
       // If the status is failure or error, fetch logs
       if (status === 'failure' || status === 'error') {
@@ -100,21 +98,12 @@ app.get('/', async (req, res) => {
         });
         errorLogs = logsResponse.data || 'No logs available.';
       }
-
-      // Message based on the status
-      if (status === 'success') {
-        message = 'Deployed Successfully';
-      } else if (status === 'in_progress' || status === 'queued') {
-        message = 'Deployment In Progress';
-      } else if (status === 'failure' || status === 'error') {
-        message = 'Deployment Failed';
-      }
-
+ 
     } 
 
     // Generate SVG response based on status
     const svg = generateSVG(
-      status === 'success' || status === 'ready' ? 'success' : status === 'building' || status === 'in_progress' ? 'building' : 'failed',
+      status === 'success' || status === 'ready' ? 'success' : status === 'building' || status === 'in_progress' || status === 'queued' ? 'building' : 'failed',
       { theme, background, hide_border, border, width: svgWidth, height: svgHeight }
     );
 
@@ -128,10 +117,12 @@ app.get('/', async (req, res) => {
 
 });
 
+/*
 // Start the server
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
   console.log(`Server is running at http://localhost:${PORT}`);
 });
+*/
 
 export default app;

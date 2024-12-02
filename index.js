@@ -40,18 +40,24 @@ app.get('/', async (req, res) => {
   try {
     if (platform === 'github' || platform === 'g') {
       const response = await axios.get(
-        `https://api.github.com/repos/${user}/${repo}/pages/builds/latest`
+        `https://api.github.com/repos/${user}/${repo}/actions/runs`
       );
       const latestRun = response.data.workflow_runs[0];
+    
+      if (!latestRun) {
+        throw new Error('No workflow runs found');
+      }
+    
       status = latestRun.status === 'completed' ? latestRun.conclusion : latestRun.status;
-
+    
       if (status === 'failure' || status === 'error') {
         const logsResponse = await axios.get(latestRun.logs_url, {
           headers: { Accept: 'application/vnd.github.v3+json' }
         });
         errorLogs = logsResponse.data || 'No logs available.';
       }
-    } else if (platform === 'netlify') {
+    }
+     else if (platform === 'netlify' || platform === 'n') {
       const response = await axios.get(
         `https://api.netlify.com/api/v1/sites/<site_id>/deploys`
       );
@@ -136,5 +142,12 @@ app.get('/', async (req, res) => {
   res.setHeader('Content-Type', 'text/html');
   res.send(html);
 });
+
+/*
+const PORT = process.env.PORT || 3000;
+app.listen(PORT, () => {
+  console.log(`Server is running on http://localhost:${PORT}`);
+});
+*/
 
 export default app;

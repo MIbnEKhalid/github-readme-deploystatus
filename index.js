@@ -1,6 +1,6 @@
 import express from "express";
 import axios from "axios";
-import { SpeedInsights } from "@vercel/speed-insights/next";
+//import { SpeedInsights } from "@vercel/speed-insights/next";
 
 const app = express();
 const token = process.env.GITHUB_TOKEN;

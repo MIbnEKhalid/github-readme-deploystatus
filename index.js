@@ -2,15 +2,16 @@ import express from 'express';
 import axios from 'axios';
 
 const app = express();
+const token = process.env.GITHUB_TOKEN;
 
-const generateSVG = (status, message, options) => {
+const generateSVG = (status, options) => {
   const {
     background = 'ffffff', // Default background
     theme = 'light',       // Default theme
     hide_border = 'false', // Default hide_border
     border = '000000',     // Default border color
-    width = 400,           // Default width
-    height = 150           // Default height
+    width = 200,           // Default width
+    height = 50           // Default height
   } = options;
 
   // Convert string flags to boolean
@@ -36,17 +37,13 @@ const generateSVG = (status, message, options) => {
 
   // Calculate font sizes and positioning based on SVG width and height
   const fontSize = Math.min(width / 12, 30); // Limit max font size to a reasonable size based on width
-  const subTextFontSize = Math.min(width / 20, 16); // For the status text
 
   return `
     <svg xmlns="http://www.w3.org/2000/svg" width="${width}" height="${height}" viewBox="0 0 ${width} ${height}">
       <rect width="${width}" height="${height}" fill="${bgColor}" rx="10" ry="10" stroke="${borderColor}" stroke-width="2" />
-      <text x="${width / 2}" y="${height / 3}" fill="${statusColor}" font-size="${fontSize}" font-family="Arial, sans-serif" text-anchor="middle" alignment-baseline="middle">
-        ${message}
-      </text>
-      <text x="${width / 2}" y="${height - 30}" fill="${textColor}" font-size="${subTextFontSize}" font-family="Arial, sans-serif" text-anchor="middle" alignment-baseline="middle">
-        Status: ${status}
-      </text>
+      <text x="${width / 2}" y="${height / 2}" fill="${statusColor}" font-size="${fontSize}" font-family="Arial, sans-serif" text-anchor="middle" alignment-baseline="middle">
+        ${status}
+      </text> 
     </svg>
   `;
 };
@@ -71,8 +68,8 @@ app.get('/', async (req, res) => {
     let message = 'Unknown';
 
     // Set width and height for SVG
-    const svgWidth = width ? parseInt(width) : 400;
-    const svgHeight = height ? parseInt(height) : 150;
+    const svgWidth = width ? parseInt(width) : 200;
+    const svgHeight = height ? parseInt(height) : 50;
 
     // Check platform (GitHub or Netlify)
     if (platform === 'github' || platform === 'g') {
@@ -113,37 +110,11 @@ app.get('/', async (req, res) => {
         message = 'Deployment Failed';
       }
 
-    } else if (platform === 'netlify' || platform === 'n') {
-      const response = await axios.get(
-        `https://api.netlify.com/api/v1/sites/<site_id>/deploys`,
-        {
-          headers: {
-            'Authorization': `Bearer ${netlifyToken}` // You need to provide a Netlify API token here
-          }
-        }
-      );
-console.log(response);
-      status = response.data[0].state;
-
-      // Handle Netlify status
-      if (status === 'error') {
-        errorLogs = 'Netlify error logs are not available via API. Check the Netlify dashboard.';
-      }
-
-      // Set message for Netlify deployment status
-      if (status === 'ready') {
-        message = 'Deployed Successfully';
-      } else if (status === 'building') {
-        message = 'Deployment In Progress';
-      } else if (status === 'error') {
-        message = 'Deployment Failed';
-      }
-    }
+    } 
 
     // Generate SVG response based on status
     const svg = generateSVG(
       status === 'success' || status === 'ready' ? 'success' : status === 'building' || status === 'in_progress' ? 'building' : 'failed',
-      message,
       { theme, background, hide_border, border, width: svgWidth, height: svgHeight }
     );
 

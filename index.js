@@ -78,6 +78,13 @@ app.get("/", async (req, res) => {
     return;
   }
 
+  if (platform.toLowerCase() !== "github" && platform.toLowerCase() !== "g" && platform.toLowerCase() !== "netlify" &&
+    platform.toLowerCase() !== "n" && platform.toLowerCase() !== "vercel" && platform.toLowerCase() !== "v") {
+    res.status(400).send("Currently, only the GitHub platform is supported.");
+    res.status(400).send("Incorrect platform naming. Netlify, vercel and github are the only supported platforms.");
+    return;
+  }
+
   // Validate required parameters for github
   if ((platform.toLowerCase() === "github" || platform.toLowerCase() === "g") && !user) {
     res
@@ -101,27 +108,22 @@ app.get("/", async (req, res) => {
     return;
   }
 
-
-  // Validate required parameters for vercel
-  if (((platform.toLowerCase() === "netlify" || platform.toLowerCase() === "n") && !siteid) ||
-    ((platform.toLowerCase() === "netlify" || platform.toLowerCase() === "n") && !projectname)) {
+  // Validate required parameters for netlify
+  if (((platform.toLowerCase() === "vercel" || platform.toLowerCase() === "n") && !projectid) ||
+    ((platform.toLowerCase() === "vercel" || platform.toLowerCase() === "n") && !siteid)) {
     res
       .status(400)
-      .send("Missing required query parameters: siteid or projectname");
+      .send("Missing required query parameters: siteid or projectname or projectid");
     return;
   }
 
-
-  if (
-    platform.toLowerCase() !== "github" &&
-    platform.toLowerCase() !== "g" &&
-    platform.toLowerCase() !== "netlify" &&
-    platform.toLowerCase() !== "n" &&
-    platform.toLowerCase() !== "vercel" &&
-    platform.toLowerCase() !== "v"
-  ) {
-    res.status(400).send("Currently, only the GitHub platform is supported.");
-    // res.status(400).send("Incorrect platform naming. Netlify, vercel and github are the only supported platforms.");
+  // Validate required parameters for netlify
+  if (((platform.toLowerCase() === "netlify" || platform.toLowerCase() === "n") && !siteid) ||
+    ((platform.toLowerCase() === "netlify" || platform.toLowerCase() === "n") && !projectid) ||
+    ((platform.toLowerCase() === "netlify" || platform.toLowerCase() === "n") && !projectname)) {
+    res
+      .status(400)
+      .send("Missing required query parameters: siteid or projectname or projectid");
     return;
   }
 
@@ -215,6 +217,7 @@ app.get("/", async (req, res) => {
       );
     return;
   }
+
 });
 
 // Start the server
@@ -223,4 +226,4 @@ app.listen(PORT, () => {
   console.log(`Server is running at http://localhost:${PORT}`);
 });
 
-export default app;
+export default app

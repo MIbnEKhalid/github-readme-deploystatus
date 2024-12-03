@@ -11,9 +11,5 @@
       "src": "/(.*)",
       "dest": "/index.js"
     }
-  ],
-  "static": {
-    "src": "Builder/index.html",
-    "dest": "/Builder/index.html"
-  }
+  ]
 }

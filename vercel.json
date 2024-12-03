@@ -10,6 +10,10 @@
     {
       "src": "/(.*)",
       "dest": "/index.js"
+    },
+    {
+      "src": "/builder",
+      "dest": "/Builder/index.html"
     }
   ]
 }

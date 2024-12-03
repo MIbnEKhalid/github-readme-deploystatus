@@ -117,8 +117,7 @@ app.get("/", async (req, res) => {
   }
 
   // Validate required parameters for netlify
-  if (((platform.toLowerCase() === "netlify" || platform.toLowerCase() === "n") && !siteid) ||
-     ((platform.toLowerCase() === "netlify" || platform.toLowerCase() === "n") && !projectname)) {
+  if ((platform.toLowerCase() === "netlify" || platform.toLowerCase() === "n") && !siteid)  {
     res
       .status(400)
       .send("Missing required query parameters: siteid or projectname");

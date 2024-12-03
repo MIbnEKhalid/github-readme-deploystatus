@@ -2,7 +2,7 @@
 
 
 
-**Use This Website to build badge: https://mbktechstudio.com/github-readme-deploystatus/Builder/**
+**Use This Website to build badge: https://readme.deploystatus.mbktechstudio.com/Builder/**
 
 
 https://readme.deploystatus.mbktechstudio.com/?platform=github&user=mibnekhalid&repo=MIbnEKhalid.github.io&background=333333&hide_border=false&border=ff0&width=200&height=50

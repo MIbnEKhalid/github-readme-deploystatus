@@ -8,25 +8,35 @@
     <style>
         body {
             font-family: 'Roboto', sans-serif;
-            background-color: #181818;
-            color: #e0e0e0;
+            background: linear-gradient(135deg, #0d1117, #161b22);
+            color: #c9d1d9;
             display: flex;
             justify-content: center;
             align-items: center;
-            height: 100vh;
             margin: 0;
             padding: 20px;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        h1 {
+            color: #ffffff;
+            text-align: center;
+            margin-bottom: 20px;
+            font-size: 2.5em;
+            text-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
         }
 
         .container {
             display: flex;
-            background: #242424;
-            padding: 30px;
-            border-radius: 10px;
-            box-shadow: 0 0 15px rgba(0, 0, 0, 0.7);
+            background: #161b22;
+            padding: 10px;
+            border-radius: 15px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.7);
             max-width: 900px;
             width: 100%;
             flex-direction: row;
+            transition: transform 0.3s;
         }
 
         .builder,
@@ -36,13 +46,14 @@
         }
 
         .builder {
-            border-right: 1px solid #333;
+            border-right: 1px solid #21262d;
         }
 
         h2 {
             text-align: center;
             margin-bottom: 20px;
-            color: #ffffff;
+            color: #58a6ff;
+            font-size: 1.8em;
         }
 
         .form-group {
@@ -53,7 +64,7 @@
             display: block;
             margin-bottom: 8px;
             font-weight: bold;
-            color: #ffffff;
+            color: #c9d1d9;
         }
 
         .form-group input,
@@ -61,41 +72,44 @@
             width: 100%;
             padding: 12px;
             box-sizing: border-box;
-            border: 1px solid #444;
+            border: 1px solid #30363d;
             border-radius: 5px;
-            background-color: #333;
-            color: #ffffff;
+            background-color: #0d1117;
+            color: #c9d1d9;
+            transition: border-color 0.3s;
         }
 
         .form-group input:focus,
         .form-group select:focus {
-            border-color: #1e90ff;
+            border-color: #58a6ff;
             outline: none;
         }
 
         button {
             width: 100%;
             padding: 12px;
-            background-color: #1e90ff;
+            background: linear-gradient(135deg, #238636, #2ea043);
             color: #ffffff;
             border: none;
             border-radius: 5px;
             cursor: pointer;
             font-size: 16px;
-            transition: background-color 0.3s;
+            transition: background 0.3s, transform 0.3s;
         }
 
         button:hover {
-            background-color: #1c7ed6;
+            background: linear-gradient(135deg, #2ea043, #238636);
+            transform: scale(1.05);
         }
 
         .output {
             margin-top: 20px;
             padding: 15px;
-            background: #333;
+            background: #0d1117;
             border-radius: 5px;
             word-break: break-all;
-            color: #ffffff;
+            color: #c9d1d9;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
         }
 
         .output img {
@@ -106,32 +120,34 @@
         .copy-button {
             margin-top: 10px;
             padding: 10px;
-            background-color: #1e90ff;
+            background: linear-gradient(135deg, #238636, #2ea043);
             color: #ffffff;
             border: none;
             border-radius: 5px;
             cursor: pointer;
             font-size: 14px;
-            transition: background-color 0.3s;
+            transition: background 0.3s, transform 0.3s;
         }
 
         .copy-button:hover {
-            background-color: #1c7ed6;
+            background: linear-gradient(135deg, #2ea043, #238636);
+            transform: scale(1.05);
         }
 
         .output input {
             width: 100%;
             padding: 10px;
             margin-top: 10px;
-            border: 1px solid #444;
+            border: 1px solid #30363d;
             border-radius: 5px;
-            background-color: #333;
-            color: #ffffff;
+            background-color: #0d1117;
+            color: #c9d1d9;
             box-sizing: border-box;
+            transition: border-color 0.3s;
         }
 
         .output input:focus {
-            border-color: #1e90ff;
+            border-color: #58a6ff;
             outline: none;
         }
 
@@ -142,19 +158,74 @@
 
             .builder {
                 border-right: none;
-                border-bottom: 1px solid #333;
+                border-bottom: 1px solid #21262d;
             }
+        }
+    </style>
+    <style>
+        .github-widget {
+            background-color: #0d1117;
+            border: 1px solid #333;
+            border-radius: 8px;
+            padding: 10px 15px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.6);
+            display: inline-flex;
+            align-items: center;
+            transition: box-shadow 0.3s ease, border-color 0.3s ease;
+            margin-bottom: 15px;
+            transition: transform 0.3s;
+        }
+
+        .github-widget:hover {
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.8);
+            border-color: #58a6ff;
+        }
+
+        .github-link {
+            text-decoration: none;
+            color: #ffffff;
+            font-size: 14px;
+            font-weight: bold;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .github-link:hover {
+            color: #f0f0f0;
+        }
+
+        .github-logo {
+            width: 20px;
+            height: 20px;
         }
     </style>
 </head>
 
 <body>
-    
+    <h1>🔥 GitHub Readme Deploy Status</h1>
+    <div class="github-widget">
+        <a href="https://github.com/MIbnEKhalid/github-readme-deploystatus"
+            title="MIbnEKhalid/github-readme-deploystatus" target="_blank" class="github-link">
+            <!-- SVG for GitHub Logo -->
+            <svg class="github-logo" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="#ffffff">
+                <path
+                    d="M12 .296c-6.63 0-12 5.373-12 12 0 5.302 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577v-2.07c-3.338.726-4.033-1.416-4.033-1.416-.546-1.384-1.333-1.754-1.333-1.754-1.09-.744.083-.729.083-.729 1.205.084 1.84 1.236 1.84 1.236 1.07 1.834 2.809 1.305 3.495.998.108-.775.42-1.305.762-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.47-2.38 1.235-3.22-.135-.302-.54-1.515.105-3.16 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.4 3-.405 1.02.005 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.645.24 2.858.12 3.16.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.435.372.81 1.11.81 2.235v3.31c0 .315.21.69.825.575C20.565 22.09 24 17.592 24 12.296c0-6.627-5.373-12-12-12" />
+            </svg>
+            View on GitHub
+        </a>
+    </div>
+
+
     <div class="container">
 
         <div class="builder">
 
             <h2>URL Builder</h2>
+
+            <button onclick="buildURL()">Build URL</button>
+            <br>
+            <br>
 
             <div class="form-group">
                 <label for="platform">Platform</label>
@@ -211,14 +282,19 @@
                     <option value="true">True</option>
                 </select>
             </div>
-
             <button onclick="buildURL()">Build URL</button>
+
         </div>
 
         <div class="output-container">
-            <h2>Output</h2>
+            <h2>Preview</h2>
             <div class="output" id="output"></div>
-            <button class="copy-button" onclick="copyURL()">Copy URL</button>
+            <h2>Markdown</h2>
+            <div class="output" id="markdown"></div>
+            <button class="copy-button" onclick="copyText('markdown')">Copy Markdown</button>
+            <h2>HTML</h2>
+            <div class="output" id="html"></div>
+            <button class="copy-button" onclick="copyText('html')">Copy HTML</button>
         </div>
     </div>
 
@@ -279,15 +355,26 @@
             }
             url += `&hide_border=${hideBorder}`;
 
-            document.getElementById('output').innerHTML = `<img src="${url}" alt="Deployment Status"><br><br><input type="text" value="${url}" id="url-output" readonly>`;
+            const previewHtml = `<img src="${url}" alt="Deployment Status"><br><br><input type="text" value="${url}" id="url-output" readonly>`;
+            document.getElementById('output').innerHTML = previewHtml;
+
+            const markdown = `[![DeployStatus](${url})](${url})`;
+            document.getElementById('markdown').innerText = markdown;
+
+            const html = `<a href="${url}"><img src="${url}" alt="DeployStatus" /></a>`;
+            document.getElementById('html').innerText = html;
         }
 
-        function copyURL() {
-            const urlOutput = document.getElementById('url-output');
-            urlOutput.select();
-            urlOutput.setSelectionRange(0, 99999); // For mobile devices
-            document.execCommand('copy');
-            alert('URL copied to clipboard');
+        function copyText(type) {
+            let text;
+            if (type === 'markdown') {
+                text = document.getElementById('markdown').innerText;
+            } else if (type === 'html') {
+                text = document.getElementById('html').innerText;
+            }
+            navigator.clipboard.writeText(text).then(() => {
+                alert(`${type.charAt(0).toUpperCase() + type.slice(1)} copied to clipboard`);
+            });
         }
 
         // Initialize the form fields based on the selected platform

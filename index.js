@@ -25,8 +25,8 @@ const generateSVG = (status, options) => {
   const borderColor = hideBorder
     ? "none"
     : validHex(border)
-    ? `#${border}`
-    : "#000000";
+      ? `#${border}`
+      : "#000000";
 
   const themes = {
     light: { textColor: "#000000" },
@@ -46,9 +46,8 @@ const generateSVG = (status, options) => {
   return `
     <svg xmlns="http://www.w3.org/2000/svg" width="${width}" height="${height}" viewBox="0 0 ${width} ${height}">
       <rect width="${width}" height="${height}" fill="${bgColor}" rx="10" ry="10" stroke="${borderColor}" stroke-width="2" />
-      <text x="${width / 2}" y="${
-    height / 2
-  }" fill="${statusColor}" font-size="${fontSize}" font-family="Arial, sans-serif" text-anchor="middle" alignment-baseline="middle">
+      <text x="${width / 2}" y="${height / 2
+    }" fill="${statusColor}" font-size="${fontSize}" font-family="Arial, sans-serif" text-anchor="middle" alignment-baseline="middle">
         ${status}
       </text> 
     </svg>
@@ -60,6 +59,9 @@ app.get("/", async (req, res) => {
     platform,
     user,
     repo,
+    siteid,
+    projectid,
+    projectname,
     theme,
     background,
     hide_border,
@@ -69,12 +71,46 @@ app.get("/", async (req, res) => {
   } = req.query;
 
   // Validate required parameters
-  if (!platform || !user || !repo) {
+  if (!platform) {
     res
       .status(400)
-      .send("Missing required query parameters: platform, user, or repo.");
+      .send("Missing required query parameters: platform.");
     return;
   }
+
+  // Validate required parameters for github
+  if ((platform.toLowerCase() === "github" || platform.toLowerCase() === "g") && !user) {
+    res
+      .status(400)
+      .send("Missing required query parameters: user");
+    return;
+  }
+
+  if ((platform.toLowerCase() === "github" || platform.toLowerCase() === "g") && !repo) {
+    res
+      .status(400)
+      .send("Missing required query parameters: repo.");
+    return;
+  }
+
+  // Validate required parameters for vercel
+  if ((platform.toLowerCase() === "vercel" || platform.toLowerCase() === "v") && !projectid) {
+    res
+      .status(400)
+      .send("Missing required query parameters: projectid");
+    return;
+  }
+
+
+  // Validate required parameters for vercel
+  if (((platform.toLowerCase() === "netlify" || platform.toLowerCase() === "n") && !siteid) ||
+    ((platform.toLowerCase() === "netlify" || platform.toLowerCase() === "n") && !projectname)) {
+    res
+      .status(400)
+      .send("Missing required query parameters: siteid or projectname");
+    return;
+  }
+
 
   if (
     platform.toLowerCase() !== "github" &&
@@ -138,8 +174,8 @@ app.get("/", async (req, res) => {
           : status === "building" ||
             status === "in_progress" ||
             status === "queued"
-          ? "building"
-          : "failed",
+            ? "building"
+            : "failed",
         {
           theme,
           background,
@@ -170,6 +206,7 @@ app.get("/", async (req, res) => {
       );
     return;
   }
+
   if (platform.toLowerCase() === "vercel" || platform.toLowerCase() === "v") {
     res
       .status(400)

@@ -12,7 +12,7 @@
       "dest": "/index.js"
     },
     {
-      "src": "/builder",
+      "src": "/Builder",
       "dest": "/Builder/index.html"
     }
   ]

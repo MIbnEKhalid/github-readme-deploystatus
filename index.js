@@ -100,20 +100,12 @@ app.get("/", async (req, res) => {
     return;
   }
 
-  // Validate required parameters for vercel
-  if ((platform.toLowerCase() === "vercel" || platform.toLowerCase() === "v") && !projectid) {
-    res
-      .status(400)
-      .send("Missing required query parameters: projectid");
-    return;
-  }
-
   // Validate required parameters for netlify
   if (((platform.toLowerCase() === "vercel" || platform.toLowerCase() === "n") && !projectid) ||
     ((platform.toLowerCase() === "vercel" || platform.toLowerCase() === "n") && !siteid)) {
     res
       .status(400)
-      .send("Missing required query parameters: siteid or projectname or projectid");
+      .send("Missing required query parameters: siteid or projectid");
     return;
   }
 

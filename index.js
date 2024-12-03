@@ -100,12 +100,11 @@ app.get("/", async (req, res) => {
     return;
   }
 
-  // Validate required parameters for netlify
-  if (((platform.toLowerCase() === "vercel" || platform.toLowerCase() === "n") && !projectid) ||
-    ((platform.toLowerCase() === "vercel" || platform.toLowerCase() === "n") && !siteid)) {
+  // Validate required parameters for vercel
+  if ((platform.toLowerCase() === "vercel" || platform.toLowerCase() === "n") && (!projectid || !siteid || (projectid && siteid))) {
     res
       .status(400)
-      .send("Missing required query parameters: siteid or projectid");
+      .send("Either siteid or projectid should be provided, but not both.");
     return;
   }
 

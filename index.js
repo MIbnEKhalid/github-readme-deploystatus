@@ -62,6 +62,7 @@ app.get("/", async (req, res) => {
     siteid,
     projectid,
     projectname,
+    teamid,
     theme,
     background,
     hide_border,
@@ -101,20 +102,26 @@ app.get("/", async (req, res) => {
   }
 
   // Validate required parameters for vercel
-  if ((platform.toLowerCase() === "vercel" || platform.toLowerCase() === "n") && (!projectid || !siteid || (projectid && siteid))) {
+  if ((platform.toLowerCase() === "vercel" || platform.toLowerCase() === "g") && !projectid) {
     res
       .status(400)
-      .send("Either siteid or projectid should be provided, but not both.");
+      .send("Missing required query parameters: projectid");
+    return;
+  }
+
+  if ((platform.toLowerCase() === "vercel" || platform.toLowerCase() === "g") && !teamid) {
+    res
+      .status(400)
+      .send("Missing required query parameters: teamid.");
     return;
   }
 
   // Validate required parameters for netlify
   if (((platform.toLowerCase() === "netlify" || platform.toLowerCase() === "n") && !siteid) ||
-    ((platform.toLowerCase() === "netlify" || platform.toLowerCase() === "n") && !projectid) ||
-    ((platform.toLowerCase() === "netlify" || platform.toLowerCase() === "n") && !projectname)) {
+     ((platform.toLowerCase() === "netlify" || platform.toLowerCase() === "n") && !projectname)) {
     res
       .status(400)
-      .send("Missing required query parameters: siteid or projectname or projectid");
+      .send("Missing required query parameters: siteid or projectname");
     return;
   }
 
@@ -192,12 +199,58 @@ app.get("/", async (req, res) => {
   }
 
   if (platform.toLowerCase() === "netlify" || platform.toLowerCase() === "n") {
-    res
-      .status(400)
-      .send(
-        "We are sorry, the Netlify deploy status badge is currently under development. Currently, only the GitHub platform is supported."
+    try {
+      let status = "unknown";
+
+      // Set width and height for SVG
+      const svgWidth = width ? parseInt(width) : 200;
+      const svgHeight = height ? parseInt(height) : 50;
+
+      const response = await axios.get(
+        `https://api.netlify.com/api/v1/sites/${siteid}/deploys`,
+        {
+          headers: {
+        Accept: "application/json",
+          },
+        }
       );
-    return;
+
+      // Extract deploys data
+      const deploys = response.data || [];
+      if (deploys.length === 0) {
+        throw new Error("No deploys found.");
+      }
+
+      const latestDeploy = deploys[0];
+      status = latestDeploy.state || "unknown"; // Get deploy state
+
+      // Generate SVG response based on status
+      const svg = generateSVG(
+        status === "ready"
+          ? "success"
+          : status === "building"
+          ? "building"
+          : "failed",
+        {
+          theme,
+          background,
+          hide_border,
+          border,
+          width: svgWidth,
+          height: svgHeight,
+        }
+      );
+
+      res.setHeader("Content-Type", "image/svg+xml");
+      res.send(svg);
+    } catch (error) {
+      console.error("Error fetching status:", error.message);
+      res
+        .status(500)
+        .send(
+          "<h1>500 Internal Server Error</h1><p>Error fetching status from Netlify.</p>"
+        );
+    }
   }
 
   if (platform.toLowerCase() === "vercel" || platform.toLowerCase() === "v") {

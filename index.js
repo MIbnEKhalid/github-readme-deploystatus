@@ -7,7 +7,7 @@ const token = process.env.GITHUB_TOKEN;
 
 const generateSVG = (status, options) => {
   const {
-    background = "ffffff", // Default background
+    background = "333333", // Default background
     theme = "light", // Default theme
     hide_border = "false", // Default hide_border
     border = "000000", // Default border color

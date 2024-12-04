@@ -92,4 +92,46 @@ function hideMessage() {
     }, 500);
 }
 
-showMessage("dsdsdsdsdu duak d Initialize the form fields based on the selected platformhs dhskhs skh", "Error");
+//showMessage("dsdsdsdsdu duak d Initialize the form fields based on the selected platformhs dhskhs skh", "Error");
+
+function populateFieldsFromURL() {
+    const params = new URLSearchParams(window.location.search);
+
+    // Map URL parameters to form fields
+    const fieldMap = {
+        platform: 'platform',
+        user: 'user',
+        repo: 'repo',
+        siteId: 'site-id',
+        projectId: 'project-id',
+        background: 'background',
+        border: 'border',
+        width: 'width',
+        height: 'height',
+        hide_border: 'hide-border'
+    };
+
+    for (const [param, fieldId] of Object.entries(fieldMap)) {
+        const value = params.get(param);
+        if (value !== null) {
+            const field = document.getElementById(fieldId);
+            if (field) {
+                if (field.tagName === 'SELECT') {
+                    field.value = value;
+                } else if (field.tagName === 'INPUT') {
+                    if (field.type === 'checkbox') {
+                        field.checked = value === 'true';
+                    } else {
+                        field.value = value;
+                    }
+                }
+            }
+        }
+    }
+
+    toggleFields(); // Adjust visibility of platform-specific fields
+}
+
+document.addEventListener("DOMContentLoaded", () => {
+    populateFieldsFromURL();
+}); 

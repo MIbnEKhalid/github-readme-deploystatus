@@ -6,6 +6,7 @@ function toggleFields() {
     document.getElementById('site-id-group').style.display = platform === 'netlify' ? 'block' : 'none';
     document.getElementById('project-id-group').style.display = platform === 'vercel' ? 'block' : 'none';
 }
+
 function buildURL() {
     const platform = document.getElementById('platform').value;
     const user = document.getElementById('user').value;
@@ -57,6 +58,7 @@ function buildURL() {
     const html = `<a href="https://github.com/MIbnEKhalid/github-readme-deploystatus"><img src="${url}" alt="DeployStatus" /></a>`;
     document.getElementById('html').innerText = html;
 }
+
 function copyText(type) {
     let text;
     if (type === 'markdown') {
@@ -73,12 +75,9 @@ toggleFields();
 
 
 
-
-
-
 function showMessage(message, heading) {
     document.querySelector('.messageWindow h2').innerText = heading;
-    document.querySelector('.messageWindow p').innerText = message;
+    document.querySelector('.messageWindow p').innerHTML = message;
     document.querySelector('.blurWindow').classList.add('active');
     document.body.classList.add('blur-active');
 }
@@ -94,8 +93,12 @@ function hideMessage() {
 
 //showMessage("dsdsdsdsdu duak d Initialize the form fields based on the selected platformhs dhskhs skh", "Error");
 
+
 function populateFieldsFromURL() {
     const params = new URLSearchParams(window.location.search);
+
+    // Allowed platforms (case-insensitive)
+    const allowedPlatforms = ['github', 'netlify', 'vercel'];
 
     // Map URL parameters to form fields
     const fieldMap = {
@@ -115,10 +118,49 @@ function populateFieldsFromURL() {
         const value = params.get(param);
         if (value !== null) {
             const field = document.getElementById(fieldId);
-            if (field) {
+            if (param === 'platform') {
+                const normalizedValue = value.toLowerCase();
+                if (!allowedPlatforms.includes(normalizedValue)) {
+                    showMessage(`Invalid platform: ${value}`, 'Parameter Error');
+                    return; // Exit the function if the platform is invalid
+                } else {
+                    // Set the normalized value to match select options
+                    if (field) field.value = normalizedValue;
+                }
+
+                if (normalizedValue === 'github') {
+                    if (!params.get('user')) {
+                        showMessage('Missing required query parameter: user', 'Parameter Error');
+                        return;
+                    }
+                    if (!params.get('repo')) {
+                        showMessage('Missing required query parameter: repo', 'Parameter Error');
+                        return;
+                    }
+                }
+
+                else if (normalizedValue === 'vercel') {
+                    if (!params.get('projectId')) {
+                        showMessage('Missing required query parameter: projectId', 'Parameter Error');
+                        return;
+                    }
+                    if (!params.get('teamId')) {
+                        showMessage('Missing required query parameter: teamId', 'Parameter Error');
+                        return;
+                    }
+                } else if (normalizedValue === 'netlify') {
+                    if (!params.get('siteId')) {
+                        showMessage('Missing required query parameter: siteId', 'Parameter Error');
+                        return;
+                    }
+                }
+
+            }
+            else if (field) {
                 if (field.tagName === 'SELECT') {
                     field.value = value;
-                } else if (field.tagName === 'INPUT') {
+                }
+                else if (field.tagName === 'INPUT') {
                     if (field.type === 'checkbox') {
                         field.checked = value === 'true';
                     } else {
@@ -127,8 +169,8 @@ function populateFieldsFromURL() {
                 }
             }
         }
+        buildURL(); // Update the output fields
     }
-
     toggleFields(); // Adjust visibility of platform-specific fields
 }
 

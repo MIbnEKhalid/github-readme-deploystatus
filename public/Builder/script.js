@@ -52,9 +52,9 @@ function buildURL() {
     url += `&hide_border=${hideBorder}`;
     const previewHtml = `<img src="${url}" alt="Deployment Status"><br><br><input type="text" value="${url}" id="url-output" readonly>`;
     document.getElementById('output').innerHTML = previewHtml;
-    const markdown = `[![DeployStatus](${url})](${url})`;
+    const markdown = `[![DeployStatus](${url})](https://github.com/MIbnEKhalid/github-readme-deploystatus)`;
     document.getElementById('markdown').innerText = markdown;
-    const html = `<a href="${url}"><img src="${url}" alt="DeployStatus" /></a>`;
+    const html = `<a href="https://github.com/MIbnEKhalid/github-readme-deploystatus"><img src="${url}" alt="DeployStatus" /></a>`;
     document.getElementById('html').innerText = html;
 }
 function copyText(type) {
@@ -76,3 +76,20 @@ toggleFields();
 
 
 
+function showMessage(message, heading) {
+    document.querySelector('.messageWindow h2').innerText = heading;
+    document.querySelector('.messageWindow p').innerText = message;
+    document.querySelector('.blurWindow').classList.add('active');
+    document.body.classList.add('blur-active');
+}
+
+function hideMessage() {
+    const blurWindow = document.querySelector('.blurWindow');
+    blurWindow.classList.add('fade-out');
+    setTimeout(() => {
+        blurWindow.classList.remove('active', 'fade-out');
+        document.body.classList.remove('blur-active');
+    }, 500);
+}
+
+showMessage("dsdsdsdsdu duak d Initialize the form fields based on the selected platformhs dhskhs skh", "Error");

@@ -28,7 +28,7 @@ Note: Only one should be used, either `name` or `siteid`.
 
 | Parameter       | Details                                                                 | Example                                                                                          |
 |-----------------|-------------------------------------------------------------------------|--------------------------------------------------------------------------------------------------|
-| `platform`      | The platform to check the status for (`github`, `netlify`, `vercel`). Each can also be represented as `g`, `n`, `v` respectively. | `github`, `netlify`, `vercel`                                                                    |
+| `platform`      | The platform to check the status for (`github`, `netlify`, `vercel`).  | `github`, `netlify`, `vercel`                                                                    |
 | `user`          | GitHub username who owns the repository                                | `mibnekhalid`                                                                                    |
 | `repo`          | GitHub repository to check the status for                              | `DeployStatus`                                                                                   |
 | `siteid` / `projectid`       | Site ID of the Netlify or Vercel project to check the status for        | `adsfsffgaw33r242234324`                                                                         |

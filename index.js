@@ -2,7 +2,7 @@ import express from "express";
 import axios from "axios";
 import path from "path"
 import { fileURLToPath } from "url"
-import { SpeedInsights } from "@vercel/speed-insights/next";
+//import { SpeedInsights } from "@vercel/speed-insights/next";
 
 const app = express();
 const token = process.env.GITHUB_TOKEN;
@@ -52,7 +52,7 @@ const generateSVG = (status, options) => {
 
   return `
     <svg xmlns="http://www.w3.org/2000/svg" width="${width}" height="${height}" viewBox="0 0 ${width} ${height}">
-      <rect width="${width}" height="${height}" fill="${bgColor}" rx="10" ry="10" stroke="${borderColor}" stroke-width="2" />
+      <rect width="${width}" height="${height}" fill="${bgColor}" rx="10" ry="10" stroke="${borderColor}" stroke-width="3" />
       <text x="${width / 2}" y="${height / 2
     }" fill="${statusColor}" font-size="${fontSize}" font-family="Arial, sans-serif" text-anchor="middle" alignment-baseline="middle">
         ${status}

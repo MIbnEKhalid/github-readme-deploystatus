@@ -2,7 +2,7 @@ import express from "express";
 import axios from "axios";
 import path from "path"
 import { fileURLToPath } from "url"
-//import { SpeedInsights } from "@vercel/speed-insights/next";
+import { SpeedInsights } from "@vercel/speed-insights/next";
 
 const app = express();
 const token = process.env.GITHUB_TOKEN;

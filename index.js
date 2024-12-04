@@ -264,6 +264,10 @@ app.get("/", async (req, res) => {
 });
 
 
+// This page is hosted here because I wanted to quickly integrate it with the existing Node.js server.
+// In the future, I plan to host it as a static page using a more suitable method.
+// I don;t know how to host static pages using node.js server
+// Sadly I have to read docs now to learn how to do it :(
 app.get("/Builder", async (req, res) => {
   
   res.send(`    

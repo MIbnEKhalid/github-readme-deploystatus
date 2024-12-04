@@ -164,16 +164,17 @@ html {
 
 
 .github-widget {
+    width: 160px;
     background-color: #0d1117;
     border: 1px solid #333;
     border-radius: 8px;
-    padding: 10px 15px;
+    padding: 10px 10px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.6);
-    display: inline-flex;
-    align-items: center;
+    display: block;
     margin: 0 auto;
-    margin-bottom: 15px;
+    margin-bottom: 20px;
     transition: transform 0.3s;
+    text-align: center;
 }
 
 .github-widget:hover {

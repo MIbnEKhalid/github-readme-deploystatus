@@ -70,3 +70,9 @@ function copyText(type) {
 }
 // Initialize the form fields based on the selected platform
 toggleFields();
+
+
+
+
+
+

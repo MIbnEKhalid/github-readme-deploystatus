@@ -3,18 +3,23 @@ body {
     background: linear-gradient(135deg, #0d1117, #161b22);
     color: #c9d1d9;
     /*
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    margin: 0;
+   
     padding: 20px;
     flex-direction: column;
     min-height: 100vh;
     */
+
+
 }
-html{
+
+html {
     background: linear-gradient(135deg, #0d1117, #161b22);
-    color: #c9d1d9;   
+    color: #c9d1d9;
+}
+
+.alll {
+    padding: 20px;
+
 }
 
 .h1 {
@@ -87,19 +92,25 @@ html{
 
 .buttons {
     width: 100%;
-    padding: 12px;
-    background: linear-gradient(135deg, #238636, #2ea043);
-    color: #ffffff;
-    border: none;
-    border-radius: 5px;
+    outline: none;
+    padding: 8px;
+    border-radius: 6px;
+    font-size: 18px;
+    font-weight: bold;
+    background: #377a77;
+    color: #fff;
     cursor: pointer;
-    font-size: 16px;
-     transition: background 0.3s, transform 0.3s;
+    border: 2px solid transparent;
+    transition: all 0.4s ease;
 }
 
 .buttons:hover {
-    background: linear-gradient(135deg, #2ea043, #238636);
+    border-color: #377a77;
+    background-color: transparent;
+    color: #377a77;
+    transition: all 0.3s ease;
     transform: scale(1.05);
+
 }
 
 .output {
@@ -117,22 +128,7 @@ html{
     border-radius: 5px;
 }
 
-.copy-button {
-    margin-top: 10px;
-    padding: 10px;
-    background: linear-gradient(135deg, #238636, #2ea043);
-    color: #ffffff;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    font-size: 14px;
-    transition: background 0.3s, transform 0.3s;
-}
 
-.copy-button:hover {
-    background: linear-gradient(135deg, #2ea043, #238636);
-    transform: scale(1.05);
-}
 
 .output input {
     width: 100%;
@@ -166,6 +162,7 @@ html{
 
 
 
+
 .github-widget {
     background-color: #0d1117;
     border: 1px solid #333;
@@ -174,16 +171,28 @@ html{
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.6);
     display: inline-flex;
     align-items: center;
-    justify-content: center;
-    transition: box-shadow 0.3s ease, border-color 0.3s ease;
     margin: 0 auto;
     margin-bottom: 15px;
     transition: transform 0.3s;
 }
 
 .github-widget:hover {
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.8);
-    border-color: #58a6ff;
+    transform: translateY(-5px);
+}
+
+.github-a,
+.github-a:visited {
+    text-decoration: none;
+    color: #f0f0f0;
+    font-size: 14px;
+    font-weight: bold;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.github-a:hover {
+    color: #007bff;
 }
 
 .github-link {

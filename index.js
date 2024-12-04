@@ -10,7 +10,7 @@ const token = process.env.GITHUB_TOKEN;
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-app.use("/Builder", express.static(path.join(__dirname, "Public/Builder")));
+app.use("/Builder", express.static(path.join(__dirname, "public/Builder")));
 
 const generateSVG = (status, options) => {
   const {
@@ -272,7 +272,7 @@ app.get("/", async (req, res) => {
 
 
 // Start the server
-const PORT = process.env.PORT || 3050;
+const PORT = process.env.PORT || 3081;
 app.listen(PORT, () => {
   console.log(`Server is running at http://localhost:${PORT}`);
 });

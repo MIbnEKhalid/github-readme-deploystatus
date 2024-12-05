@@ -59,13 +59,21 @@ function buildURL() {
   if (height) {
     url += `&height=${height}`;
   }
+
   url += `&hide_border=${hideBorder}`;
+
   const previewHtml = `<img src="${url}" alt="Deployment Status"><br><br><input type="text" value="${url}" id="url-output" readonly>`;
-  document.getElementById("output").innerHTML = previewHtml;
   const markdown = `[![DeployStatus](${url})](https://github.com/MIbnEKhalid/github-readme-deploystatus)`;
-  document.getElementById("markdown").innerText = markdown;
   const html = `<a href="https://github.com/MIbnEKhalid/github-readme-deploystatus"><img src="${url}" alt="DeployStatus" /></a>`;
+  const shareLink = `${url.replace(
+    "mbktechstudio.com",
+    "mbktechstudio.com/Builder"
+  )}`;
+
+  document.getElementById("output").innerHTML = previewHtml;
+  document.getElementById("markdown").innerText = markdown;
   document.getElementById("html").innerText = html;
+  document.getElementById("share-link").innerText = shareLink;
 }
 
 // Initialize the form fields based on the selected platform
@@ -251,6 +259,14 @@ function copyText(type) {
       `${type.charAt(0).toUpperCase() + type.slice(1)} copied to clipboard`
     );
   });
+}
+
+function copyShareLink() {
+  const shareLink = document.getElementById("share-link").innerText;
+  navigator.clipboard
+    .writeText(shareLink)
+    .then(() => alert("Share link copied to clipboard!"))
+    .catch((err) => console.error("Error copying link:", err));
 }
 
 //showMessage("Testing The Show Message Function", "Error");

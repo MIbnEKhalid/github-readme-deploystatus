@@ -2,27 +2,40 @@
 
 ### Note Project Is Still UnderDevelopment
 
+<p style="text-align:center"> 
+    <a href="https://vercel.com/new/clone?repository-url=https://github.com/mibnekhalid/github-readme-deploystatus">
+        <img src="https://vercel.com/button" alt="Deploy with Vercel" width="150" height="50" />
+    </a>
+</p>
 
-**Use This Website to build badge: https://readme.deploystatus.mbktechstudio.com/Builder/**
-
-
-```
-https://readme.deploystatus.mbktechstudio.com/?platform=github&user=mibnekhalid&repo=MIbnEKhalid.github.io&background=fff&hide_border=false&border=ff0&width=200&height=50
-```
-
-
-![Deployment Status](https://readme.deploystatus.mbktechstudio.com/?platform=github&user=mibnekhalid&repo=MIbnEKhalid.github.io&background=fff&hide_border=false&border=ff0&width=200&height=50)
-
-<br><br>
+**Use This Website to Build Badge: https://readme.deploystatus.mbktechstudio.com/Builder/**
 
 
-```
-https://github-readme-deploystatus.vercel.app/?platform=github&user=mibnekhalid&repo=DeployStatus&background=333333&hide_border=false&border=ff0&width=300&height=50
-```
+## 🚀 Introduction
+GitHub Readme Deploy Status is a simple tool to display the deployment status of your projects directly in your GitHub README file. It supports multiple platforms like GitHub, Netlify, and Vercel, giving users a dynamic way to monitor the deployment status of their repositories.
 
 
+## 🛠 How to Use the Badge
 
-![Deployment Status](https://github-readme-deploystatus.vercel.app/?platform=github&user=mibnekhalid&repo=DeployStatus&background=333333&hide_border=false&border=ff0&width=300&height=50)
+After generating your badge using the **[Builder Tool Page](https://readme.deploystatus.mbktechstudio.com/Builder/)**, you can easily include it in your GitHub repository's README file. Simply copy the generated Markdown or HTML code and paste it into your README.
+
+- **Markdown example:**
+  ```markdown
+  ![Deployment Status](https://readme.deploystatus.mbktechstudio.com/?platform=github&user=mibnekhalid&repo=MIbnEKhalid.github.io&background=fff&hide_border=false&border=ff0&width=200&height=50)
+  ```
+  ![Deployment Status](https://readme.deploystatus.mbktechstudio.com/?platform=github&user=mibnekhalid&repo=MIbnEKhalid.github.io&background=fff&hide_border=false&border=ff0&width=200&height=50)
+- **HTML example:**
+
+  ```html
+  <a href="https://github.com/MIbnEKhalid/github-readme-deploystatus">
+      <img src="https://readme.deploystatus.mbktechstudio.com/?platform=github&user=mibnekhalid&repo=MIbnEKhalid.github.io&background=000&hide_border=true&border=ff0" alt="DeployStatus" />
+  </a>
+  ```
+     <img src="https://readme.deploystatus.mbktechstudio.com/?platform=github&user=mibnekhalid&repo=MIbnEKhalid.github.io&background=000&hide_border=true&border=ff0" alt="DeployStatus" />
+
+ 
+
+ 
 
 
 ## 🔧 Options
@@ -111,18 +124,16 @@ To customize the project URL in the `public/Builder/script.js` file, follow thes
 
 6. **Modify or remove the GitHub repository links** in both the Markdown and HTML generation code if needed:
    - Change the link to your own GitHub repo
-   ```
+   ```js
    const markdown = `[![DeployStatus](${url})](https://github.com/your-username/your-repo)`;
    
    const html = `<a href="https://github.com/your-username/your-repo"><img src="${url}" alt="DeployStatus" /></a>`;
-
    ```
    - Or Remove It
-   ```
+   ```js
    const markdown = `![DeployStatus](${url})`;
    
    const html = `<img src="${url}" alt="DeployStatus" />`;
-
    ```
 
 
@@ -140,12 +151,7 @@ To customize the project URL in the `public/Builder/script.js` file, follow thes
 By following these steps, you’ll ensure the badge builder reflects your project setup, and the generated Markdown/HTML badge will link to your repository or custom location.
 
 
-
-
-
-
-
-
+ 
  
 ## License
  

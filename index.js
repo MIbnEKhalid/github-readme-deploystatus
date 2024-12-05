@@ -2,10 +2,17 @@ import express from "express";
 import axios from "axios";
 import path from "path"
 import { fileURLToPath } from "url"
-//import { SpeedInsights } from "@vercel/speed-insights/next";
+// import { SpeedInsights } from "@vercel/speed-insights/next";
 
 const app = express();
-const token = process.env.GITHUB_TOKEN;
+// const token = process.env.GITHUB_TOKEN;
+
+app.use((req, res, next) => {
+  res.setHeader("Cache-Control", "no-cache, no-store, must-revalidate");
+  res.setHeader("Pragma", "no-cache");
+  res.setHeader("Expires", "0");
+  next();
+});
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);

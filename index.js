@@ -2,7 +2,7 @@ import express from "express";
 import axios from "axios";
 import path from "path"
 import { fileURLToPath } from "url"
-// import { SpeedInsights } from "@vercel/speed-insights/next";
+import { SpeedInsights } from "@vercel/speed-insights/next";
 
 
 const app = express();
@@ -281,6 +281,7 @@ const generateSVG = (status, options) => {
         ${status}
       </text> 
     </svg>
+    <SpeedInsights />
   `;
 
 };

@@ -1,13 +1,10 @@
 import express from "express";
 import axios from "axios";
-import path from "path"
-import { fileURLToPath } from "url"
-import { analyze } from "@vercel/speed-insights/next";
-
+import path from "path";
+import { fileURLToPath } from "url";
 
 const app = express();
 // const token = process.env.GITHUB_TOKEN;
-
 
 // Prevent HTTP cache
 app.use((req, res, next) => {
@@ -17,34 +14,10 @@ app.use((req, res, next) => {
   next();
 });
 
-
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-app.get("/speed-insights", async (req, res) => {
-  const { url } = req.query;
-
-  if (!url) {
-    return res.status(400).json({ error: "URL is required." });
-  }
-
-  try {
-    const options = {
-      url, // URL to analyze
-      strategy: "mobile", // 'mobile' or 'desktop'
-    };
-
-    const insights = await analyze(options);
-
-    res.status(200).json(insights);
-  } catch (error) {
-    console.error("Error fetching Speed Insights:", error);
-    res.status(500).json({ error: "Failed to fetch Speed Insights." });
-  }
-});
-
 app.use("/Builder", express.static(path.join(__dirname, "public/Builder")));
-
 
 app.get("/", async (req, res) => {
   const {
@@ -65,51 +38,66 @@ app.get("/", async (req, res) => {
 
   // Validate required parameters
   if (!platform) {
-    res
-      .status(400)
-      .send("Missing required query parameters: platform.");
+    res.status(400).send("Missing required query parameters: platform.");
     return;
   }
 
-  if (platform.toLowerCase() !== "github" && platform.toLowerCase() !== "g" && platform.toLowerCase() !== "netlify" &&
-    platform.toLowerCase() !== "n" && platform.toLowerCase() !== "vercel" && platform.toLowerCase() !== "v") {
+  if (
+    platform.toLowerCase() !== "github" &&
+    platform.toLowerCase() !== "g" &&
+    platform.toLowerCase() !== "netlify" &&
+    platform.toLowerCase() !== "n" &&
+    platform.toLowerCase() !== "vercel" &&
+    platform.toLowerCase() !== "v"
+  ) {
     res.status(400).send("Currently, only the GitHub platform is supported.");
-    res.status(400).send("Incorrect platform naming. Netlify, vercel and github are the only supported platforms.");
+    res
+      .status(400)
+      .send(
+        "Incorrect platform naming. Netlify, vercel and github are the only supported platforms."
+      );
     return;
   }
 
   // Validate required parameters for github
-  if ((platform.toLowerCase() === "github" || platform.toLowerCase() === "g") && !user) {
-    res
-      .status(400)
-      .send("Missing required query parameters: user");
+  if (
+    (platform.toLowerCase() === "github" || platform.toLowerCase() === "g") &&
+    !user
+  ) {
+    res.status(400).send("Missing required query parameters: user");
     return;
   }
 
-  if ((platform.toLowerCase() === "github" || platform.toLowerCase() === "g") && !repo) {
-    res
-      .status(400)
-      .send("Missing required query parameters: repo.");
+  if (
+    (platform.toLowerCase() === "github" || platform.toLowerCase() === "g") &&
+    !repo
+  ) {
+    res.status(400).send("Missing required query parameters: repo.");
     return;
   }
 
   // Validate required parameters for vercel
-  if ((platform.toLowerCase() === "vercel" || platform.toLowerCase() === "g") && !projectid) {
-    res
-      .status(400)
-      .send("Missing required query parameters: projectid");
+  if (
+    (platform.toLowerCase() === "vercel" || platform.toLowerCase() === "g") &&
+    !projectid
+  ) {
+    res.status(400).send("Missing required query parameters: projectid");
     return;
   }
 
-  if ((platform.toLowerCase() === "vercel" || platform.toLowerCase() === "g") && !teamid) {
-    res
-      .status(400)
-      .send("Missing required query parameters: teamid.");
+  if (
+    (platform.toLowerCase() === "vercel" || platform.toLowerCase() === "g") &&
+    !teamid
+  ) {
+    res.status(400).send("Missing required query parameters: teamid.");
     return;
   }
 
   // Validate required parameters for netlify
-  if ((platform.toLowerCase() === "netlify" || platform.toLowerCase() === "n") && !siteid)  {
+  if (
+    (platform.toLowerCase() === "netlify" || platform.toLowerCase() === "n") &&
+    !siteid
+  ) {
     res
       .status(400)
       .send("Missing required query parameters: siteid or projectname");
@@ -165,8 +153,8 @@ app.get("/", async (req, res) => {
           : status === "building" ||
             status === "in_progress" ||
             status === "queued"
-            ? "building"
-            : "failed",
+          ? "building"
+          : "failed",
         {
           theme,
           background,
@@ -201,7 +189,7 @@ app.get("/", async (req, res) => {
         `https://api.netlify.com/api/v1/sites/${siteid}/deploys`,
         {
           headers: {
-        Accept: "application/json",
+            Accept: "application/json",
           },
         }
       );
@@ -252,9 +240,7 @@ app.get("/", async (req, res) => {
       );
     return;
   }
-
 });
-
 
 const generateSVG = (status, options) => {
   const {
@@ -276,8 +262,8 @@ const generateSVG = (status, options) => {
   const borderColor = hideBorder
     ? "none"
     : validHex(border)
-      ? `#${border}`
-      : "#000000";
+    ? `#${border}`
+    : "#000000";
 
   const themes = {
     light: { textColor: "#000000" },
@@ -297,21 +283,19 @@ const generateSVG = (status, options) => {
   return `
     <svg xmlns="http://www.w3.org/2000/svg" width="${width}" height="${height}" viewBox="0 0 ${width} ${height}">
       <rect width="${width}" height="${height}" fill="${bgColor}" rx="10" ry="10" stroke="${borderColor}" stroke-width="3" />
-      <text x="${width / 2}" y="${height / 2
-    }" fill="${statusColor}" font-size="${fontSize}" font-family="Arial, sans-serif" text-anchor="middle" alignment-baseline="middle">
+      <text x="${width / 2}" y="${
+    height / 2
+  }" fill="${statusColor}" font-size="${fontSize}" font-family="Arial, sans-serif" text-anchor="middle" alignment-baseline="middle">
         ${status}
       </text> 
     </svg>
   `;
-
 };
 
- 
 // Start the server
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
   console.log(`Server is running at http://localhost:${PORT}`);
 });
 
-
-export default app
+export default app;

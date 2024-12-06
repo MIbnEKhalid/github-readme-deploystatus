@@ -21,6 +21,27 @@ app.use((req, res, next) => {
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
+app.get("/speed-insights", async (req, res) => {
+  const { url } = req.query;
+
+  if (!url) {
+    return res.status(400).json({ error: "URL is required." });
+  }
+
+  try {
+    const options = {
+      url, // URL to analyze
+      strategy: "mobile", // 'mobile' or 'desktop'
+    };
+
+    const insights = await analyze(options);
+
+    res.status(200).json(insights);
+  } catch (error) {
+    console.error("Error fetching Speed Insights:", error);
+    res.status(500).json({ error: "Failed to fetch Speed Insights." });
+  }
+});
 
 app.use("/Builder", express.static(path.join(__dirname, "public/Builder")));
 
@@ -285,24 +306,7 @@ const generateSVG = (status, options) => {
 
 };
 
-
-
-async function fetchInsights(url) {
-  const options = {
-    strategy: "mobile", // or "desktop"
-  };
-
-  try {
-    const insights = await getInsights(url, options);
-    console.log(insights);
-    return insights;
-  } catch (error) {
-    console.error("Error fetching speed insights:", error);
-  }
-}
-
-fetchInsights("https://readme.deploystatus.mbktechstudio.com/");
-
+ 
 // Start the server
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {

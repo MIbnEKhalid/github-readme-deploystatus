@@ -4,9 +4,12 @@ import path from "path"
 import { fileURLToPath } from "url"
 // import { SpeedInsights } from "@vercel/speed-insights/next";
 
+
 const app = express();
 // const token = process.env.GITHUB_TOKEN;
 
+
+// Prevent HTTP cache
 app.use((req, res, next) => {
   res.setHeader("Cache-Control", "no-cache, no-store, must-revalidate");
   res.setHeader("Pragma", "no-cache");
@@ -14,59 +17,13 @@ app.use((req, res, next) => {
   next();
 });
 
+
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
+
 app.use("/Builder", express.static(path.join(__dirname, "public/Builder")));
 
-const generateSVG = (status, options) => {
-  const {
-    background = "333333", // Default background
-    theme = "light", // Default theme
-    hide_border = "false", // Default hide_border
-    border = "000000", // Default border color
-    width = 200, // Default width
-    height = 50, // Default height
-  } = options;
-
-  // Convert string flags to boolean
-  const hideBorder = hide_border === "true";
-
-  // Ensure valid hex color format
-  const validHex = (color) => /^([A-Fa-f0-9]{3}|[A-Fa-f0-9]{6})$/.test(color);
-
-  const bgColor = validHex(background) ? `#${background}` : "#ffffff";
-  const borderColor = hideBorder
-    ? "none"
-    : validHex(border)
-      ? `#${border}`
-      : "#000000";
-
-  const themes = {
-    light: { textColor: "#000000" },
-    dark: { textColor: "#ffffff" },
-  };
-
-  const textColor = themes[theme]?.textColor || "#000000";
-
-  let statusColor = "#9e9e9e"; // Default for 'unknown'
-  if (status === "success") statusColor = "#4caf50";
-  else if (status === "building") statusColor = "#ffeb3b";
-  else if (status === "failed") statusColor = "#f44336";
-
-  // Calculate font sizes and positioning based on SVG width and height
-  const fontSize = Math.min(width / 12, 30); // Limit max font size to a reasonable size based on width
-
-  return `
-    <svg xmlns="http://www.w3.org/2000/svg" width="${width}" height="${height}" viewBox="0 0 ${width} ${height}">
-      <rect width="${width}" height="${height}" fill="${bgColor}" rx="10" ry="10" stroke="${borderColor}" stroke-width="3" />
-      <text x="${width / 2}" y="${height / 2
-    }" fill="${statusColor}" font-size="${fontSize}" font-family="Arial, sans-serif" text-anchor="middle" alignment-baseline="middle">
-        ${status}
-      </text> 
-    </svg>
-  `;
-};
 
 app.get("/", async (req, res) => {
   const {
@@ -278,10 +235,62 @@ app.get("/", async (req, res) => {
 });
 
 
+const generateSVG = (status, options) => {
+  const {
+    background = "333333", // Default background
+    theme = "light", // Default theme
+    hide_border = "false", // Default hide_border
+    border = "000000", // Default border color
+    width = 200, // Default width
+    height = 50, // Default height
+  } = options;
+
+  // Convert string flags to boolean
+  const hideBorder = hide_border === "true";
+
+  // Ensure valid hex color format
+  const validHex = (color) => /^([A-Fa-f0-9]{3}|[A-Fa-f0-9]{6})$/.test(color);
+
+  const bgColor = validHex(background) ? `#${background}` : "#ffffff";
+  const borderColor = hideBorder
+    ? "none"
+    : validHex(border)
+      ? `#${border}`
+      : "#000000";
+
+  const themes = {
+    light: { textColor: "#000000" },
+    dark: { textColor: "#ffffff" },
+  };
+
+  const textColor = themes[theme]?.textColor || "#000000";
+
+  let statusColor = "#9e9e9e"; // Default for 'unknown'
+  if (status === "success") statusColor = "#4caf50";
+  else if (status === "building") statusColor = "#ffeb3b";
+  else if (status === "failed") statusColor = "#f44336";
+
+  // Calculate font sizes and positioning based on SVG width and height
+  const fontSize = Math.min(width / 12, 30); // Limit max font size to a reasonable size based on width
+
+  return `
+    <svg xmlns="http://www.w3.org/2000/svg" width="${width}" height="${height}" viewBox="0 0 ${width} ${height}">
+      <rect width="${width}" height="${height}" fill="${bgColor}" rx="10" ry="10" stroke="${borderColor}" stroke-width="3" />
+      <text x="${width / 2}" y="${height / 2
+    }" fill="${statusColor}" font-size="${fontSize}" font-family="Arial, sans-serif" text-anchor="middle" alignment-baseline="middle">
+        ${status}
+      </text> 
+    </svg>
+  `;
+
+};
+
+
 // Start the server
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
   console.log(`Server is running at http://localhost:${PORT}`);
 });
+
 
 export default app

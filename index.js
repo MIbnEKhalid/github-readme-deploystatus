@@ -281,11 +281,27 @@ const generateSVG = (status, options) => {
         ${status}
       </text> 
     </svg>
-    <SpeedInsights />
   `;
 
 };
 
+
+
+async function fetchInsights(url) {
+  const options = {
+    strategy: "mobile", // or "desktop"
+  };
+
+  try {
+    const insights = await getInsights(url, options);
+    console.log(insights);
+    return insights;
+  } catch (error) {
+    console.error("Error fetching speed insights:", error);
+  }
+}
+
+fetchInsights("https://readme.deploystatus.mbktechstudio.com/");
 
 // Start the server
 const PORT = process.env.PORT || 3000;

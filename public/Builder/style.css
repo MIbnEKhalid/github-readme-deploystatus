@@ -1,20 +1,14 @@
-body {
+.body,.html {
     font-family: 'Roboto', sans-serif;
-    background: linear-gradient(135deg, #0d1117, #161b22);
+    background: #0d1117;
+    background-color: #0d1117;
     color: #c9d1d9;
     /*
    
     padding: 20px;
     flex-direction: column;
     min-height: 100vh;
-    */
-
-
-}
-
-html {
-    background: linear-gradient(135deg, #0d1117, #161b22);
-    color: #c9d1d9;
+    */ 
 }
 
 .alll {
@@ -156,6 +150,8 @@ html {
         border-bottom: 1px solid #21262d;
     }
 }
+
+
 
 
 
@@ -313,6 +309,7 @@ body.blur-active {
         transform: scale(0.9);
     }
 }
+
 
 
 

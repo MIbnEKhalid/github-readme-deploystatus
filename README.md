@@ -165,3 +165,129 @@ See the [LICENSE](LICENSE.md) file for details.
 ## Contact
 
 For questions or contributions, please contact Muhammad Bin Khalid at [mbktechstudio.com/Support](https://mbktechstudio.com/Support/?Project=github-readme-deploystatus), [support@mbktechstudio.com](mailto:support@mbktechstudio.com) or [chmuhammadbinkhalid28.com](mailto:chmuhammadbinkhalid28.com).
+
+
+
+
+<!--
+https://github.com/copilot/c/d3b24c13-dacb-40a2-b3b3-5d6d60e16fd2
+
+
+
+how to install node js on windows without admin rights
+To install Node.js on Windows without admin rights, you can follow these steps:
+
+Download the Node.js binary (.zip) from the official Node.js website.
+Extract the contents of the zip file to a directory where you have write access.
+Add the path to the extracted node.exe and npm (inside the node_modules) to your user PATH environment variable.
+Here's a more detailed step-by-step guide:
+
+Go to the Node.js downloads page.
+Choose the zip archive for Windows (either 32-bit or 64-bit depending on your system).
+Download the zip file to a location where you have write permissions.
+Extract the contents of the zip file to a directory (e.g., C:\Users\YourUsername\nodejs).
+Open a command prompt and run the following commands to add Node.js to your PATH:
+setx PATH "%PATH%;C:\Users\YourUsername\nodejs"
+Open a new command prompt and verify the installation by running:
+cmd
+node -v
+npm -v
+This should allow you to use Node.js and npm without needing admin rights.
+
+
+C:\Users\TEMP.MAJUISB>node -v
+v22.12.0
+
+
+
+PS Z:\github-readme-deploystatus-main> npm run build
+npm : File C:\Users\TEMP.MAJUISB\nodejs\npm.ps1 cannot be loaded. The file C:\Users\TEMP.MAJUISB\nodejs\npm.ps1 is not digitally signed. You cannot run 
+this script on the current system. For more information about running scripts and setting execution policy, see about_Execution_Policies at 
+https:/go.microsoft.com/fwlink/?LinkID=135170.
+At line:1 char:1
++ npm run build
++ ~~~
+    + CategoryInfo          : SecurityError: (:) [], PSSecurityException
+    + FullyQualifiedErrorId : UnauthorizedAccess
+The error you're encountering is related to the PowerShell execution policy, which prevents the running of scripts that are not digitally signed. You can bypass this by temporarily allowing the execution of unsigned scripts within your current PowerShell session.
+
+Here are the steps to bypass the restriction:
+
+Open PowerShell as a normal user (not as an administrator).
+Run the following command to temporarily set the execution policy for the current session:
+Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass
+After setting the execution policy, try running your npm command again:
+npm run build
+This will allow you to execute the npm script without requiring admin rights or changing the system-wide execution policy.
+
+power shell run command?
+To run a command in PowerShell, simply open PowerShell and type the command followed by Enter. For example, to display the current directory, you would type:
+
+Get-Location
+If you need to run a script or command with specific execution policies, you can adjust the policy for the session:
+
+PowerShell
+Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass
+<your-command-here>
+Replace <your-command-here> with the command you wish to execute.
+
+i mean how toopen powershell with window+r
+To open PowerShell using the Windows + R shortcut, follow these steps:
+
+Press Windows + R on your keyboard. This will open the Run dialog.
+Type powershell in the Run dialog box.
+Press Enter or click OK.
+This will launch a new PowerShell window.
+
+PS C:\Users\TEMP.MAJUISB> Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass
+
+Execution Policy Change
+The execution policy helps protect you from scripts that you do not trust. Changing the execution policy might expose
+you to the security risks described in the about_Execution_Policies help topic at
+https:/go.microsoft.com/fwlink/?LinkID=135170. Do you want to change the execution policy?
+[Y] Yes  [A] Yes to All  [N] No  [L] No to All  [S] Suspend  [?] Help (default is "N"):
+When prompted to confirm the execution policy change, type Y and press Enter to proceed:
+
+[Y] Yes  [A] Yes to All  [N] No  [L] No to All  [S] Suspend  [?] Help (default is "N"): Y
+Once you confirm, you should be able to run your npm command without issues.
+
+PS Z:\github-readme-deploystatus-main> node index.js
+node:internal/modules/esm/resolve:857
+  throw new ERR_MODULE_NOT_FOUND(packageName, fileURLToPath(base), null);
+        ^
+
+Error [ERR_MODULE_NOT_FOUND]: Cannot find package 'express' imported from Z:\github-readme-deploystatus-main\index.js
+    at moduleResolve (node:internal/modules/esm/resolve:926:18)
+    at defaultResolve (node:internal/modules/esm/resolve:1056:11)
+    at ModuleLoader.defaultResolve (node:internal/modules/esm/loader:654:12)
+    at #cachedDefaultResolve (node:internal/modules/esm/loader:603:25)
+    at ModuleLoader.resolve (node:internal/modules/esm/loader:586:38)
+    at ModuleLoader.getModuleJobForImport (node:internal/modules/esm/loader:242:38)
+    at ModuleJob._link (node:internal/modules/esm/module_job:135:49) {
+  code: 'ERR_MODULE_NOT_FOUND'
+
+Node.js v22.12.0
+The error indicates that the express package is not installed. You can install it using npm.
+
+Open PowerShell and navigate to your project directory. Then run:
+
+npm install express
+After the installation completes, try running your script again:
+
+node index.js
+This should resolve the ERR_MODULE_NOT_FOUND error.
+
+PS Z:\github-readme-deploystatus-main> npm install express
+npm : File C:\Users\TEMP.MAJUISB\nodejs\npm.ps1 cannot be loaded. The file C:\Users\TEMP.MAJUISB\nodejs\npm.ps1 is not digitally signed. You cannot run 
+this script on the current system. For more information about running scripts and setting execution policy, see about_Execution_Policies at 
+https:/go.microsoft.com/fwlink/?LinkID=135170.
+At line:1 char:1
++ npm install express
++ ~~~
+    + CategoryInfo          : SecurityError: (:) [], PSSecurityException
+    + FullyQualifiedErrorId : UnauthorizedAccess
+To bypass the script execution policy issue, you can run npm install using the node executable directly:
+
+node -e "require('child_process').execSync('npm install express', {stdio: 'inherit'})"
+This should allow you to install the express package without encountering the execution policy error.
+-->

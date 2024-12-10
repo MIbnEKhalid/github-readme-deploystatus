@@ -291,3 +291,33 @@ To bypass the script execution policy issue, you can run npm install using the n
 node -e "require('child_process').execSync('npm install express', {stdio: 'inherit'})"
 This should allow you to install the express package without encountering the execution policy error.
 -->
+
+
+<!--
+async function loadTheme() {
+  const response = await fetch('themes.json');
+  const themes = await response.json();
+  const themeSelect = document.getElementById('theme');
+  const backgroundInput = document.getElementById('background');
+  const borderInput = document.getElementById('border');
+
+  // Populate theme options from JSON
+  for (const theme in themes) {
+      const option = document.createElement('option');
+      option.value = theme;
+      option.textContent = theme.charAt(0).toUpperCase() + theme.slice(1);
+      themeSelect.appendChild(option);
+  }
+
+  themeSelect.addEventListener('change', () => {
+      const selectedTheme = themeSelect.value;
+      if (themes[selectedTheme]) {
+          backgroundInput.value = themes[selectedTheme].background;
+          borderInput.value = themes[selectedTheme].border;
+      }
+  });
+}
+
+document.addEventListener('DOMContentLoaded', loadTheme);
+
+-->

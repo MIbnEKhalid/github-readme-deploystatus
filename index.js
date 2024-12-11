@@ -251,12 +251,6 @@ app.get("/detail", async (req, res) => {
     projectid,
     projectname,
     teamid,
-    theme,
-    background,
-    hide_border,
-    border,
-    width,
-    height,
   } = req.query;
 
   // Validate required parameters
